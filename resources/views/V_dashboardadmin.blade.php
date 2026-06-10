@@ -50,9 +50,20 @@
         </div>
         <h3 class="text-gray-600 font-semibold group-hover:text-white transition-colors duration-300">Total User</h3>
         <p class="text-gray-400 text-sm mt-1 group-hover:text-gray-300">Admin, Petugas, Mahasiswa</p>
-        <div class="mt-3 flex items-center text-xs text-purple-500 group-hover:text-purple-200">
-            <a href="{{ route('user.index') }}" class="flex items-center">
+
+        <!-- Shortcut ke Pengajuan Akun -->
+        <div class="mt-3 flex items-center justify-between">
+            <a href="{{ route('user.index') }}" class="flex items-center text-xs text-purple-500 group-hover:text-purple-200">
                 <span>Kelola User</span>
+                <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+            <a href="{{ route('admin.pengajuan-akun.index') }}" class="flex items-center text-xs text-yellow-500 group-hover:text-yellow-200">
+                @if($pendingApproval > 0)
+                <span class="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs mr-1 animate-pulse">{{ $pendingApproval }}</span>
+                @endif
+                <span>Pengajuan Akun</span>
                 <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>

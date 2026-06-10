@@ -18,7 +18,7 @@ class C_user extends Controller
     // Menampilkan daftar user
     public function index()
     {
-        $users = M_akun::orderBy('created_at', 'desc')->get();
+        $users = M_akun::approved()->orderBy('created_at', 'desc')->get();
         return view('V_kelolauseradmin', compact('users'));
     }
 

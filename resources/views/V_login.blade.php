@@ -225,7 +225,7 @@
                                     </div>
                                     <div class="bg-gray-50 p-2 rounded text-center">
                                         <p class="font-semibold text-gray-700">Petugas</p>
-                                        <p class="text-gray-500">petugasdummy@gmail.com</p>
+                                        <p class="text-gray-500">petugas@gmail.com</p>
                                         <p class="text-gray-400">pwdummy</p>
                                     </div>
                                     <div class="bg-gray-50 p-2 rounded text-center">

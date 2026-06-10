@@ -52,58 +52,61 @@ class C_dashboard extends Controller
 
     // Dashboard Admin
     public function admin()
-{
-    // Statistik User
-    $totalUsers = M_akun::count();
-    $totalAdmin = M_akun::where('role', 'admin')->count();
-    $totalPetugas = M_akun::where('role', 'petugas')->count();
-    $totalMahasiswa = M_akun::where('role', 'mahasiswa')->count();
+    {
+        $totalUsers = M_akun::where('status_approval', 'approved')->count();
+        $totalAdmin = M_akun::where('role', 'admin')->where('status_approval', 'approved')->count();
+        $totalPetugas = M_akun::where('role', 'petugas')->where('status_approval', 'approved')->count();
+        $totalMahasiswa = M_akun::where('role', 'mahasiswa')->where('status_approval', 'approved')->count();
 
-    // Statistik Barang
-    $totalBarang = M_barang::where('is_delete', false)->count();
-
-    // Statistik Peminjaman
-    $peminjamanAktif = M_peminjaman::whereIn('status', ['disetujui', 'dipinjam'])->count();
-    $totalDenda = M_pengembalian::sum('total_denda');
-
-    // Tingkat Pengembalian
-    $totalPeminjaman = M_peminjaman::count();
-    $totalSelesai = M_peminjaman::where('status', 'selesai')->count();
-    $tingkatPengembalian = $totalPeminjaman > 0 ? round(($totalSelesai / $totalPeminjaman) * 100) : 0;
-
-    // Top Barang Paling Sering Dipinjam (Query Builder biasa)
-    $topBarang = DB::table('barang')
-        ->select('barang.*', DB::raw('COUNT(detail_peminjaman.id) as total_dipinjam'))
-        ->leftJoin('detail_peminjaman', 'barang.id', '=', 'detail_peminjaman.barang_id')
-        ->where('barang.is_delete', false)
-        ->groupBy('barang.id')
-        ->orderBy('total_dipinjam', 'desc')
-        ->limit(5)
-        ->get();
-
-    // Peminjaman Terbaru
-    $peminjamanTerbaru = M_peminjaman::with('mahasiswa')
-        ->orderBy('created_at', 'desc')
-        ->limit(5)
-        ->get();
-
-    // Chart Data
-    $chartLabels = [];
-    $chartData = [];
-    for ($i = 5; $i >= 0; $i--) {
-        $bulan = now()->subMonths($i);
-        $chartLabels[] = $bulan->translatedFormat('M Y');
-        $jumlah = M_peminjaman::whereYear('created_at', $bulan->year)
-            ->whereMonth('created_at', $bulan->month)
+        // Tambahkan jumlah pending untuk badge
+        $pendingApproval = M_akun::where('status_approval', 'pending')
+            ->where('role', '!=', 'admin')
             ->count();
-        $chartData[] = $jumlah;
-    }
-    
 
-    return view('V_dashboardadmin', compact(
-        'totalUsers', 'totalAdmin', 'totalPetugas', 'totalMahasiswa',
-        'totalBarang', 'peminjamanAktif', 'totalDenda', 'tingkatPengembalian',
-        'topBarang', 'peminjamanTerbaru', 'chartLabels', 'chartData'
-    ));
-}
+        // Statistik Barang
+        $totalBarang = M_barang::where('is_delete', false)->count();
+
+        // Statistik Peminjaman
+        $peminjamanAktif = M_peminjaman::whereIn('status', ['disetujui', 'dipinjam'])->count();
+        $totalDenda = M_pengembalian::sum('total_denda');
+
+        // Tingkat Pengembalian
+        $totalPeminjaman = M_peminjaman::count();
+        $totalSelesai = M_peminjaman::where('status', 'selesai')->count();
+        $tingkatPengembalian = $totalPeminjaman > 0 ? round(($totalSelesai / $totalPeminjaman) * 100) : 0;
+
+        // Top Barang
+        $topBarang = DB::table('barang')
+            ->select('barang.*', DB::raw('COUNT(detail_peminjaman.id) as total_dipinjam'))
+            ->leftJoin('detail_peminjaman', 'barang.id', '=', 'detail_peminjaman.barang_id')
+            ->where('barang.is_delete', false)
+            ->groupBy('barang.id')
+            ->orderBy('total_dipinjam', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Peminjaman Terbaru
+        $peminjamanTerbaru = M_peminjaman::with('mahasiswa')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Chart Data
+        $chartLabels = [];
+        $chartData = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $bulan = now()->subMonths($i);
+            $chartLabels[] = $bulan->translatedFormat('M Y');
+            $jumlah = M_peminjaman::whereYear('created_at', $bulan->year)
+                ->whereMonth('created_at', $bulan->month)
+                ->count();
+            $chartData[] = $jumlah;
+        }
+
+        return view('V_dashboardadmin', compact(
+            'totalUsers', 'totalAdmin', 'totalPetugas', 'totalMahasiswa',
+            'totalBarang', 'peminjamanAktif', 'totalDenda', 'tingkatPengembalian',
+            'topBarang', 'peminjamanTerbaru', 'chartLabels', 'chartData', 'pendingApproval'
+        ));
+    }
 }

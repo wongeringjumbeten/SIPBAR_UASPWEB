@@ -63,56 +63,58 @@ class C_auth extends Controller
     }
 
     // Proses register
-    // Proses register
-public function register(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6|confirmed',
-        'role' => 'required|in:mahasiswa,petugas',
-        'nim_nip' => 'nullable|unique:users,nim_nip|regex:/^[0-9]+$/',
-        'no_hp' => 'nullable|string|max:15|regex:/^[0-9]+$/',
-        'jurusan' => 'nullable|string|max:100'
-    ], [
-        'name.required' => 'Nama wajib diisi',
-        'email.required' => 'Email wajib diisi',
-        'email.unique' => 'Email sudah terdaftar',
-        'password.required' => 'Password wajib diisi',
-        'password.min' => 'Password minimal 6 karakter',
-        'password.confirmed' => 'Konfirmasi password tidak cocok',
-        'role.required' => 'Role wajib dipilih',
-        'role.in' => 'Role tidak valid',
-        'nim_nip.regex' => 'NIM/NIP harus berupa angka',
-        'no_hp.regex' => 'Nomor HP harus berupa angka'
-    ]);
-
-    $user = M_akun::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => $request->role,
-        'nim_nip' => $request->nim_nip,
-        'no_hp' => $request->no_hp,
-        'jurusan' => $request->role == 'mahasiswa' ? $request->jurusan : null,
-        'is_active' => true
-    ]);
-
-    Auth::login($user);
-
-    if ($user->role == 'petugas') {
-        return redirect('/petugas/dashboard')->with('success', 'Selamat datang Petugas ' . $user->name . '!');
-    } else {
-        return redirect('/mahasiswa/dashboard')->with('success', 'Selamat datang ' . $user->name . '!');
-    }
-}
-
-    // Logout
-    public function logout(Request $request)
+    public function register(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login')->with('success', 'Anda berhasil logout');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'role' => 'required|in:mahasiswa,petugas',
+            'nim_nip' => 'nullable|unique:users,nim_nip|regex:/^[0-9]+$/',
+            'no_hp' => 'nullable|string|max:15|regex:/^[0-9]+$/',
+            'jurusan' => 'nullable|string|max:100'
+        ], [
+            'name.required' => 'Nama wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.unique' => 'Email sudah terdaftar',
+            'password.required' => 'Password wajib diisi',
+            'password.min' => 'Password minimal 6 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak cocok',
+            'role.required' => 'Role wajib dipilih',
+            'role.in' => 'Role tidak valid',
+            'nim_nip.regex' => 'NIM/NIP harus berupa angka',
+            'no_hp.regex' => 'Nomor HP harus berupa angka'
+        ]);
+
+        $user = M_akun::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'nim_nip' => $request->nim_nip,
+            'no_hp' => $request->no_hp,
+            'jurusan' => $request->role == 'mahasiswa' ? $request->jurusan : null,
+            'is_active' => false,
+            'status_approval' => 'pending'
+        ]);
+
+        return redirect('/login')->with('success', 'Registrasi berhasil! Akun Anda akan segera diproses oleh admin.');
+
+        Auth::login($user);
+
+        if ($user->role == 'petugas') {
+            return redirect('/petugas/dashboard')->with('success', 'Selamat datang Petugas ' . $user->name . '!');
+        } else {
+            return redirect('/mahasiswa/dashboard')->with('success', 'Selamat datang ' . $user->name . '!');
+        }
     }
-}
+
+        // Logout
+        public function logout(Request $request)
+        {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/login')->with('success', 'Anda berhasil logout');
+        }
+    }

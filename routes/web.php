@@ -10,6 +10,10 @@ use App\Http\Controllers\C_dashboard;
 use App\Http\Controllers\C_profil;
 use App\Http\Controllers\C_pengajuan;
 use App\Http\Controllers\C_pengembalian;
+use App\Http\Controllers\C_pengajuanAkun;
+use App\Http\Controllers\c_statistik;
+use App\Exports\LaporanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +50,22 @@ Route::middleware('auth')->group(function () {
         // RIWAYAT PEMINJAMAN
         Route::get('/peminjaman', [C_peminjaman::class, 'adminRiwayat'])->name('admin.peminjaman.index');
         Route::get('/peminjaman/{id}/detail', [C_peminjaman::class, 'adminDetail'])->name('admin.peminjaman.detail');
+
+        // PENGAJUAN AKUN
+        Route::prefix('pengajuan-akun')->name('admin.pengajuan-akun.')->controller(C_pengajuanAkun::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}/detail', 'detail')->name('detail');
+            Route::put('/{id}/setujui', 'setujui')->name('setujui');
+            Route::delete('/{id}/tolak', 'tolak')->name('tolak');
+        });
+
+        // STATISTIK
+        Route::get('/statistik', [C_statistik::class, 'index'])->name('admin.statistik');
+
+
+        Route::get('/export/{tipe}', function ($tipe) {
+            return Excel::download(new LaporanExport($tipe), 'laporan_' . $tipe . '_' . date('Y-m-d') . '.xlsx');
+        })->name('admin.export');
     });
 
     // Dashboard Petugas

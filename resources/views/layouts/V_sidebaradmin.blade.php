@@ -58,23 +58,33 @@
                 <span class="font-medium">Riwayat Peminjaman</span>
             </a>
 
+            <!-- Menu Pengajuan Akun -->
+            <a href="{{ route('admin.pengajuan-akun.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.pengajuan-akun*') ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                <span class="font-medium">Pengajuan Akun</span>
+                @php
+                    $pendingCount = App\Models\M_akun::where('status_approval', 'pending')
+                        ->where('role', '!=', 'admin')
+                        ->count();
+                @endphp
+                @if($pendingCount > 0)
+                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">{{ $pendingCount }}</span>
+                @endif
+            </a>
             <div class="border-t border-gray-200 my-4"></div>
 
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-3">Laporan</p>
 
-            <a href="#" class="menu-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-100 transition-all duration-300">
+            <!-- Menu Statistik -->
+            <a href="{{ route('admin.statistik') }}" class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.statistik') ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:bg-gray-100' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-                <span class="font-medium">Statistik</span>
+                <span class="font-medium">Statistik & Grafik</span>
             </a>
 
-            <a href="#" class="menu-item flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-100 transition-all duration-300">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                </svg>
-                <span class="font-medium">Export Data</span>
-            </a>
         </div>
     </div>
 </aside>

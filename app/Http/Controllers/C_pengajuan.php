@@ -121,4 +121,6 @@ class C_pengajuan extends Controller
 
         return view('V_monitoring_pinjaman', compact('pengajuan'));
     }
+
+    
 }

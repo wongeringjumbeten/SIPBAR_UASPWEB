@@ -21,7 +21,10 @@ class M_akun extends Authenticatable
         'nim_nip',
         'no_hp',
         'jurusan',
-        'is_active'
+        'is_active',
+        'status_approval',
+        'remember_token'  
+
     ];
 
     protected $hidden = [
@@ -31,15 +34,33 @@ class M_akun extends Authenticatable
 
     protected $casts = [
         'is_active' => 'boolean',
+        'status_approval' => 'string',
     ];
 
-    // Relasi: seorang mahasiswa bisa punya banyak peminjaman
+    // Scope untuk user yang sudah disetujui
+    public function scopeApproved($query)
+    {
+        return $query->where('status_approval', 'approved');
+    }
+
+    // Scope untuk user yang menunggu persetujuan
+    public function scopePendingApproval($query)
+    {
+        return $query->where('status_approval', 'pending');
+    }
+
+    // Scope untuk user yang aktif
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    // Relasi
     public function peminjaman()
     {
         return $this->hasMany(M_peminjaman::class, 'user_id');
     }
 
-    // Relasi: petugas yang memproses peminjaman
     public function peminjamanDiproses()
     {
         return $this->hasMany(M_peminjaman::class, 'petugas_id');
