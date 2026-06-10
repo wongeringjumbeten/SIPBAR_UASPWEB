@@ -468,9 +468,9 @@
                                         <div class="flex-1">
                                             <p class="font-semibold text-gray-800">
                                                 @if($peminjaman->status == 'selesai')
-                                                    Pengembalian Barang ✅
+                                                    Pengembalian Barang
                                                 @elseif($peminjaman->status == 'terlambat')
-                                                    Pengembalian Terlambat ⚠️
+                                                    Pengembalian Terlambat 
                                                 @else
                                                     Pengembalian Barang
                                                 @endif

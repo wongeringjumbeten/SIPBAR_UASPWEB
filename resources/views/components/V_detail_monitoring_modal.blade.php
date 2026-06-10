@@ -1,23 +1,5 @@
-<div class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: #667eea #e2e8f0;">
-    <style>
-        /* Custom scrollbar untuk modal monitoring */
-        .max-h-\[70vh\]::-webkit-scrollbar {
-            width: 6px;
-        }
-        .max-h-\[70vh\]::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-        .max-h-\[70vh\]::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-        }
-        .max-h-\[70vh\]::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-        }
-    </style>
-
-    <!-- Info Mahasiswa -->
+<div class="space-y-4">
+    <!-- Informasi Mahasiswa -->
     <div class="bg-gray-50 rounded-xl p-4">
         <div class="flex items-center space-x-2 mb-3">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,10 +8,22 @@
             <h4 class="font-semibold text-gray-800">Informasi Peminjam</h4>
         </div>
         <div class="grid grid-cols-2 gap-3 text-sm">
-            <div><p class="text-gray-400 text-xs">Nama</p><p class="font-semibold">{{ $peminjaman->mahasiswa->name ?? '-' }}</p></div>
-            <div><p class="text-gray-400 text-xs">NIM</p><p class="font-semibold">{{ $peminjaman->mahasiswa->nim_nip ?? '-' }}</p></div>
-            <div><p class="text-gray-400 text-xs">Jurusan</p><p class="font-semibold">{{ $peminjaman->mahasiswa->jurusan ?? '-' }}</p></div>
-            <div><p class="text-gray-400 text-xs">No. HP</p><p class="font-semibold">{{ $peminjaman->mahasiswa->no_hp ?? '-' }}</p></div>
+            <div>
+                <p class="text-gray-400 text-xs">Nama</p>
+                <p class="font-semibold">{{ $peminjaman->mahasiswa->name ?? '-' }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">NIM</p>
+                <p class="font-semibold">{{ $peminjaman->mahasiswa->nim_nip ?? '-' }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">Jurusan</p>
+                <p class="font-semibold">{{ $peminjaman->mahasiswa->jurusan ?? '-' }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">No. HP</p>
+                <p class="font-semibold">{{ $peminjaman->mahasiswa->no_hp ?? '-' }}</p>
+            </div>
         </div>
     </div>
 
@@ -42,8 +36,12 @@
             <h4 class="font-semibold text-gray-800">Detail Peminjaman</h4>
         </div>
         <div class="grid grid-cols-2 gap-3 text-sm">
-            <div><p class="text-gray-400 text-xs">Kode Peminjaman</p><p class="font-semibold font-mono">{{ $peminjaman->kode_peminjaman }}</p></div>
-            <div><p class="text-gray-400 text-xs">Status</p>
+            <div>
+                <p class="text-gray-400 text-xs">Kode Peminjaman</p>
+                <p class="font-semibold font-mono">{{ $peminjaman->kode_peminjaman }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">Status</p>
                 @if($peminjaman->status == 'pending')
                     <span class="px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-800">Menunggu</span>
                 @elseif($peminjaman->status == 'disetujui')
@@ -58,10 +56,18 @@
                     <span class="px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800">Terlambat</span>
                 @endif
             </div>
-            <div><p class="text-gray-400 text-xs">Tanggal Pengajuan</p><p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_pengajuan)->translatedFormat('d F Y, H:i') }}</p></div>
-            <div><p class="text-gray-400 text-xs">Tanggal Pinjam</p><p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_pinjam)->translatedFormat('d F Y') }}</p></div>
-            <div><p class="text-gray-400 text-xs">Rencana Kembali</p><p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_kembali_rencana)->translatedFormat('d F Y') }}</p></div>
-            <div><p class="text-gray-400 text-xs">Total Denda</p><p class="font-semibold text-red-600">Rp {{ number_format($peminjaman->total_denda, 0, ',', '.') }}</p></div>
+            <div>
+                <p class="text-gray-400 text-xs">Tanggal Pengajuan</p>
+                <p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_pengajuan)->translatedFormat('d F Y, H:i') }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">Tanggal Pinjam</p>
+                <p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_pinjam)->translatedFormat('d F Y') }}</p>
+            </div>
+            <div>
+                <p class="text-gray-400 text-xs">Rencana Kembali</p>
+                <p class="font-semibold">{{ \Carbon\Carbon::parse($peminjaman->tgl_kembali_rencana)->translatedFormat('d F Y') }}</p>
+            </div>
         </div>
         @if($peminjaman->keterangan)
         <div class="mt-3 pt-3 border-t border-gray-200">
@@ -79,7 +85,7 @@
             </svg>
             <h4 class="font-semibold text-gray-800">Daftar Barang</h4>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-2 max-h-64 overflow-y-auto">
             @foreach($peminjaman->detailPeminjaman as $detail)
             <div class="bg-white rounded-lg p-3">
                 <div class="flex justify-between items-start">

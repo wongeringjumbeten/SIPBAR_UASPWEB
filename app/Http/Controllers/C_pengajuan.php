@@ -78,11 +78,16 @@ class C_pengajuan extends Controller
     // Detail pengajuan (API untuk modal)
     public function detail($id)
     {
-        $peminjaman = M_peminjaman::with(['mahasiswa', 'detailPeminjaman.barang'])->findOrFail($id);
+        try {
+            $peminjaman = M_peminjaman::with(['mahasiswa', 'detailPeminjaman.barang'])->findOrFail($id);
 
-        $html = view('components.V_detail_peminjaman_modal', compact('peminjaman'))->render();
+            $html = view('components.V_detail_monitoring_modal', compact('peminjaman'))->render();
 
-        return response()->json(['success' => true, 'html' => $html]);
+            return response()->json(['success' => true, 'html' => $html]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     // Menampilkan daftar pengajuan yang sudah disetujui (menunggu pengambilan)
@@ -122,5 +127,5 @@ class C_pengajuan extends Controller
         return view('V_monitoring_pinjaman', compact('pengajuan'));
     }
 
-    
+
 }

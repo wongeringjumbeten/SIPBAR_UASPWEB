@@ -145,8 +145,9 @@
 
 <!-- Modal Detail Peminjaman -->
 <div id="detailModal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);" onclick="closeDetailModalOnClick(event)">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full animate-modalPop overflow-hidden">
-        <div class="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] animate-modalPop overflow-hidden flex flex-col">
+        <!-- Header (tetap di atas) -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4 flex-shrink-0">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -164,7 +165,22 @@
                 </button>
             </div>
         </div>
-        <div class="p-6" id="detailContent">
+
+        <!-- Konten Scroll -->
+        <div class="flex-1 overflow-y-auto p-6" id="detailContent" style="scrollbar-width: thin; scrollbar-color: #667eea #e2e8f0;">
+            <style>
+                #detailContent::-webkit-scrollbar {
+                    width: 6px;
+                }
+                #detailContent::-webkit-scrollbar-track {
+                    background: #e2e8f0;
+                    border-radius: 10px;
+                }
+                #detailContent::-webkit-scrollbar-thumb {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border-radius: 10px;
+                }
+            </style>
             <div class="text-center py-8">
                 <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
                 <p class="text-gray-500 mt-3">Memuat data...</p>

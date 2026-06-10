@@ -1,4 +1,21 @@
-<div class="space-y-4">
+<div class="space-y-4 max-h-[70vh] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: #667eea #e2e8f0;">
+    <style>
+        .max-h-\[70vh\]::-webkit-scrollbar {
+            width: 6px;
+        }
+        .max-h-\[70vh\]::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .max-h-\[70vh\]::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+        .max-h-\[70vh\]::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+    </style>
+
     <!-- Info Mahasiswa -->
     <div class="bg-gray-50 rounded-xl p-4">
         <div class="flex items-center space-x-2 mb-3">
@@ -49,7 +66,7 @@
             </svg>
             <h4 class="font-semibold text-gray-800">Daftar Barang</h4>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-2 max-h-48 overflow-y-auto">
             @foreach($pengembalian->peminjaman->detailPeminjaman as $detail)
             <div class="bg-white rounded-lg p-3">
                 <div class="flex justify-between items-start">
