@@ -17,7 +17,13 @@ class M_pengembalian extends Model
         'petugas_id',
         'tanggal_pengembalian',
         'total_denda',
-        'catatan'
+        'catatan',
+        'status_denda',  // TAMBAHKAN: 'belum' / 'lunas'
+        'tgl_bayar'      // TAMBAHKAN: tanggal pembayaran
+    ];
+
+    protected $casts = [
+        'tgl_bayar' => 'date',
     ];
 
     // Relasi ke peminjaman
@@ -30,5 +36,25 @@ class M_pengembalian extends Model
     public function petugas()
     {
         return $this->belongsTo(M_akun::class, 'petugas_id');
+    }
+
+    // Scope untuk denda belum lunas
+    public function scopeBelumLunas($query)
+    {
+        return $query->where('status_denda', 'belum');
+    }
+
+    // Scope untuk denda sudah lunas
+    public function scopeLunas($query)
+    {
+        return $query->where('status_denda', 'lunas');
+    }
+
+    // Method untuk menandai lunas
+    public function tandaiLunas()
+    {
+        $this->status_denda = 'lunas';
+        $this->tgl_bayar = now();
+        $this->save();
     }
 }

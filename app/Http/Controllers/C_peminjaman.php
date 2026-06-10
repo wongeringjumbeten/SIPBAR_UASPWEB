@@ -195,4 +195,24 @@ class C_peminjaman extends Controller
             ->with('notification_type', 'error')
             ->with('notification_message', 'Barang tidak ditemukan di keranjang.');
     }
+
+    public function adminRiwayat()
+    {
+        $peminjaman = M_peminjaman::with(['mahasiswa', 'petugas'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('V_peminjaman_admin', compact('peminjaman'));
+    }
+
+    // Detail peminjaman untuk admin (API modal)
+    public function adminDetail($id)
+    {
+        $peminjaman = M_peminjaman::with(['mahasiswa', 'petugas', 'detailPeminjaman.barang'])
+            ->findOrFail($id);
+
+        $html = view('components.V_detail_peminjaman_admin', compact('peminjaman'))->render();
+
+        return response()->json(['success' => true, 'html' => $html]);
+    }
 }

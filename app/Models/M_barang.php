@@ -23,7 +23,8 @@ class M_barang extends Model
         'denda_per_hari',
         'foto',
         'deskripsi',
-        'is_delete'
+        'is_delete',
+        'harga_perolehan',
     ];
 
     protected $casts = [

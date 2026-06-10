@@ -220,18 +220,18 @@
                                 <div class="grid grid-cols-3 gap-2 text-xs">
                                     <div class="bg-gray-50 p-2 rounded text-center">
                                         <p class="font-semibold text-gray-700">Admin</p>
-                                        <p class="text-gray-500">admin@kampus.com</p>
-                                        <p class="text-gray-400">password</p>
+                                        <p class="text-gray-500">admin@gmail.com</p>
+                                        <p class="text-gray-400">pwadmin</p>
                                     </div>
                                     <div class="bg-gray-50 p-2 rounded text-center">
                                         <p class="font-semibold text-gray-700">Petugas</p>
-                                        <p class="text-gray-500">petugas@kampus.com</p>
-                                        <p class="text-gray-400">password</p>
+                                        <p class="text-gray-500">petugasdummy@gmail.com</p>
+                                        <p class="text-gray-400">pwdummy</p>
                                     </div>
                                     <div class="bg-gray-50 p-2 rounded text-center">
                                         <p class="font-semibold text-gray-700">Mahasiswa</p>
-                                        <p class="text-gray-500">mahasiswa@kampus.com</p>
-                                        <p class="text-gray-400">password</p>
+                                        <p class="text-gray-500">mahasiswa@gmail.com</p>
+                                        <p class="text-gray-400">pwdummy</p>
                                     </div>
                                 </div>
                             </div>

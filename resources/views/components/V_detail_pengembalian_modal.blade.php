@@ -1,12 +1,7 @@
 <div class="space-y-4">
     <!-- Info Mahasiswa -->
     <div class="bg-gray-50 rounded-xl p-4">
-        <div class="flex items-center space-x-2 mb-3">
-            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <h4 class="font-semibold text-gray-800">Informasi Peminjam</h4>
-        </div>
+        <h4 class="font-semibold text-gray-800 mb-2">Informasi Peminjam</h4>
         <div class="grid grid-cols-2 gap-3 text-sm">
             <div><p class="text-gray-400 text-xs">Nama</p><p class="font-semibold">{{ $pengembalian->peminjaman->mahasiswa->name ?? '-' }}</p></div>
             <div><p class="text-gray-400 text-xs">NIM</p><p class="font-semibold">{{ $pengembalian->peminjaman->mahasiswa->nim_nip ?? '-' }}</p></div>
@@ -17,12 +12,7 @@
 
     <!-- Info Pengembalian -->
     <div class="bg-gray-50 rounded-xl p-4">
-        <div class="flex items-center space-x-2 mb-3">
-            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-            <h4 class="font-semibold text-gray-800">Detail Pengembalian</h4>
-        </div>
+        <h4 class="font-semibold text-gray-800 mb-2">Detail Pengembalian</h4>
         <div class="grid grid-cols-2 gap-3 text-sm">
             <div><p class="text-gray-400 text-xs">Kode Peminjaman</p><p class="font-semibold font-mono">{{ $pengembalian->peminjaman->kode_peminjaman }}</p></div>
             <div><p class="text-gray-400 text-xs">Tanggal Pengembalian</p><p class="font-semibold">{{ \Carbon\Carbon::parse($pengembalian->tanggal_pengembalian)->translatedFormat('d F Y H:i') }}</p></div>
@@ -43,32 +33,21 @@
 
     <!-- Daftar Barang -->
     <div class="bg-gray-50 rounded-xl p-4">
-        <div class="flex items-center space-x-2 mb-3">
-            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-            </svg>
-            <h4 class="font-semibold text-gray-800">Daftar Barang</h4>
-        </div>
+        <h4 class="font-semibold text-gray-800 mb-2">Daftar Barang</h4>
         <div class="space-y-2">
             @foreach($pengembalian->peminjaman->detailPeminjaman as $detail)
             <div class="bg-white rounded-lg p-3">
-                <div class="flex justify-between items-start">
-                    <div class="flex-1">
-                        <p class="font-medium text-gray-800">{{ $detail->barang->nama_barang }}</p>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium">{{ $detail->barang->nama_barang }}</p>
                         <p class="text-xs text-gray-500">Jumlah: {{ $detail->jumlah }} unit</p>
                     </div>
                     <div class="text-right">
                         <p class="text-xs text-gray-500">Kondisi Kembali</p>
                         <span class="text-sm font-semibold">
-                            @if($detail->kondisi_kembali == 'baik')
-                                <span class="text-green-600">Baik</span>
-                            @elseif($detail->kondisi_kembali == 'rusak_ringan')
-                                <span class="text-yellow-600">Rusak Ringan</span>
-                            @elseif($detail->kondisi_kembali == 'rusak_berat')
-                                <span class="text-orange-600">Rusak Berat</span>
-                            @else
-                                <span class="text-red-600">Hilang</span>
-                            @endif
+                            {{ $detail->kondisi_kembali == 'baik' ? 'Baik' :
+                            ($detail->kondisi_kembali == 'rusak_ringan' ? 'Rusak Ringan' :
+                            ($detail->kondisi_kembali == 'rusak_berat' ? 'Rusak Berat' : 'Hilang')) }}
                         </span>
                     </div>
                 </div>

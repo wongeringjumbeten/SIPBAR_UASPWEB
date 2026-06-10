@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('kategori', C_kategori::class);
         Route::get('kategori/{id}/restore', [C_kategori::class, 'restore'])->name('kategori.restore');
         Route::resource('barang', C_barang::class);
+
+        // RIWAYAT PEMINJAMAN
+        Route::get('/peminjaman', [C_peminjaman::class, 'adminRiwayat'])->name('admin.peminjaman.index');
+        Route::get('/peminjaman/{id}/detail', [C_peminjaman::class, 'adminDetail'])->name('admin.peminjaman.detail');
     });
 
     // Dashboard Petugas
@@ -60,8 +64,11 @@ Route::middleware('auth')->group(function () {
     });
 
         Route::prefix('pengembalian')->name('petugas.pengembalian.')->controller(C_pengembalian::class)->group(function () {
+            Route::get('/', 'index')->name('index');
             Route::get('/{id}/form', 'form')->name('form');
             Route::post('/{id}/proses', 'proses')->name('proses');
+            Route::get('/{id}/detail', 'detailPengembalian')->name('detail');
+            Route::put('/{id}/tandai-lunas', 'tandaiLunas')->name('tandai-lunas');
 });
     });
 

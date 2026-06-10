@@ -252,7 +252,7 @@
                 if (data.success) {
                     detailContent.innerHTML = data.html;
                 } else {
-                    detailContent.innerHTML = '<div class="text-center py-8 text-red-500">Gagal memuat数据</div>';
+                    detailContent.innerHTML = '<div class="text-center py-8 text-red-500">Gagal memuat data</div>';
                 }
             })
             .catch(error => {
